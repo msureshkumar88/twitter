@@ -46,7 +46,7 @@ class UserLibrary:
 
     @classmethod
     def update_username(cls, user_name):
-        msg = "Username saved successfully"
+        msg = ""
         if not UserLibrary.validate_username(user_name):
             msg = "Username can only be alphabetic and numeric"
             return msg
@@ -62,4 +62,5 @@ class UserLibrary:
             user = user_key.get()
             user.user_name = user_name
             user.put()
+            msg = "Username saved successfully"
         return msg

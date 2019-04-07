@@ -5,6 +5,15 @@
     <title>Title</title>
 </head>
 <body>
+<form name="/edit-profile" method="post">
+    first name<input type="text" name="first_name" value="{{user.first_name}}"><br>
+    last name<input type="text" name="last_name" value="{{user.last_name}}"><br>
+    Dob<input type="date" name="dob" value="{{user.dob}}"><br>
+    City<input type="text" name="city" value="{{user.city}}"><br>
+    website<input type="text" name="website" value="{{user.website}}"><br>
+    bio<textarea name="bio">{{user.bio}}</textarea><br>
+    <input type="submit" value="save">
+</form>
 
 </body>
 </html>
