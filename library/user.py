@@ -1,6 +1,7 @@
 from google.appengine.api import users
 from google.appengine.ext import ndb
 from models.user import User
+import re
 
 import logging
 
@@ -37,3 +38,16 @@ class UserLibrary:
     @classmethod
     def get_current_user(cls):
         return users.get_current_user()
+
+    @classmethod
+    def validate_username(cls, word):
+        word = word.strip()
+        return re.search('^[a-zA-Z0-9]+$', word)
+
+    @classmethod
+    def update_username(cls, user_name):
+        if UserLibrary.validate_username(user_name):
+            user_key = ndb.Key('User', UserLibrary.get_current_user().email())
+            user = user_key.get()
+            user.user_name = user_name
+            user.put()

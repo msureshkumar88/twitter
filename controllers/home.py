@@ -11,7 +11,7 @@ class HomePage(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(self)
-
+        logging.info(user['user'])
         template_values = {
             'url': user["url"],
             'url_string': user['url_string'],
@@ -24,6 +24,10 @@ class HomePage(webapp2.RequestHandler):
     def post(self):
         self.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(self)
+
+        userName = self.request.get("username")
+        logging.info(user['user'])
+        UserLibrary.update_username(userName)
 
         data = {
             'url': user["url"],

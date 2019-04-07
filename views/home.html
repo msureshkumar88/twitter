@@ -5,6 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-
+<a class="nav-link" href="{{url}}">{{url_string}}</a>
+{% if not user.user_name %}
+    <form name="/" method="post">
+        <input type="text" name="username">
+        <input type="submit">
+    </form>
+{% endif %}
 </body>
 </html>
