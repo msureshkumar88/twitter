@@ -4,9 +4,9 @@ from models.user import User
 
 import logging
 
-class UserController:
+class UserLibrary:
     @classmethod
-    def get_user(cls, current_user):
+    def get_user(cls, request):
 
         user = users.get_current_user()
         url = ''
@@ -14,16 +14,16 @@ class UserController:
         myuser = None
         user_key = ""
         if user:
-            url = users.create_logout_url(current_user.request.uri)
+            url = users.create_logout_url(request.request.uri)
             url_string = 'Logout'
             myuser_key = ndb.Key('User', user.email())
             myuser = myuser_key.get()
             user_key = user.user_id()
             if myuser == None:
-                myuser = User(id=user.email(), email=user.email(), total_words = 0, total_anagrams=0)
+                myuser = User(id=user.email(), email=user.email())
                 myuser.put()
         else:
-            url = users.create_login_url(current_user.request.uri)
+            url = users.create_login_url(request.request.uri)
             url_string = 'Login'
 
         data = {
