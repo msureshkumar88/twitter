@@ -10,5 +10,8 @@ handlers:
 - url: /
   script: controllers.home.app
 
+- url: /edit-profile
+  script: request.account.app
+
 - url: /assets
   static_dir: assets
