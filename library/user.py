@@ -46,8 +46,20 @@ class UserLibrary:
 
     @classmethod
     def update_username(cls, user_name):
-        if UserLibrary.validate_username(user_name):
+        msg = "Username saved successfully"
+        if not UserLibrary.validate_username(user_name):
+            msg = "Username can only be alphabetic and numeric"
+            return msg
+
+        query = User.query(User.user_name == user_name)
+        username_exist = query.fetch()
+
+        if username_exist:
+            msg = "Username already taken"
+
+        if not msg:
             user_key = ndb.Key('User', UserLibrary.get_current_user().email())
             user = user_key.get()
             user.user_name = user_name
             user.put()
+        return msg

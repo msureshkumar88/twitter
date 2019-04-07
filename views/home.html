@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <a class="nav-link" href="{{url}}">{{url_string}}</a>
-{% if not user.user_name %}
+{%if msg %}<p>{{msg}}</p> {% endif %}
+{% if user and not user.user_name %}
     <form name="/" method="post">
         <input type="text" name="username">
         <input type="submit">

@@ -7,7 +7,7 @@ import template_engine
 from library.user import UserLibrary
 
 
-class HomePage(webapp2.RequestHandler):
+class HomeController(webapp2.RequestHandler):
     def get(self):
         self.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(self)
@@ -26,18 +26,18 @@ class HomePage(webapp2.RequestHandler):
         user = UserLibrary.get_user(self)
 
         userName = self.request.get("username")
-        logging.info(user['user'])
-        UserLibrary.update_username(userName)
+        msg = UserLibrary.update_username(userName)
 
         data = {
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
+            'msg': msg
         }
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/home.html')
         self.response.write(template.render(data))
 
 
 app = webapp2.WSGIApplication([
-    ('/', HomePage),
+    ('/', HomeController),
 ], debug=True)
