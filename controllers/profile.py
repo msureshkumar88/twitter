@@ -22,6 +22,9 @@ class ProfileController:
     def save_tweet(cls, request):
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
+        tweet = request.request.get("tweet")
+        logging.info(tweet)
+        AccountHelper.save_tweet(tweet)
 
         msg = ""
         data = {

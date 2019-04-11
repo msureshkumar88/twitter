@@ -15,5 +15,5 @@ class User(ndb.Model):
     city = ndb.StringProperty()
     website = ndb.StringProperty()
     bio = ndb.StringProperty()
-    tweet_count = ndb.IntegerProperty()
+    tweet_count = ndb.IntegerProperty(default=0)
     profile_image = ndb.IntegerProperty()

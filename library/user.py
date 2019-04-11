@@ -40,6 +40,12 @@ class UserLibrary:
         return users.get_current_user()
 
     @classmethod
+    def get_logged_user(cls):
+        user = users.get_current_user()
+        user_key = ndb.Key('User', user.email())
+        return user_key.get()
+
+    @classmethod
     def validate_username(cls, word):
         word = word.strip()
         return re.search('^[a-zA-Z0-9]+$', word)
