@@ -13,5 +13,8 @@ handlers:
 - url: /edit-profile
   script: request.account.app
 
+- url: /profile
+  script: request.profile.app
+
 - url: /assets
   static_dir: assets
