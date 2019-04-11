@@ -3,3 +3,10 @@
     <input type="hidden" name="form" value="save_tweet">
     <input type="submit" value="Tweet">
 </form>
+<ul>
+    {%for tweet in tweets%}
+    <li>
+        {{tweet.text}}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a>
+    </li>
+    {%endfor%}
+</ul>

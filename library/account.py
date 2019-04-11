@@ -4,6 +4,7 @@ from library.user import UserLibrary
 from models.tweet import Tweet
 from google.appengine.ext import ndb
 import datetime
+import time
 
 
 class AccountHelper:
@@ -52,5 +53,33 @@ class AccountHelper:
 
     @classmethod
     def get_tweet_key(cls):
+        ts = time.time()
         user = UserLibrary.get_logged_user()
-        return user.email + '/' + str(user.tweet_count + 1)
+        return user.email + '/' + str(int(ts))
+
+    @classmethod
+    def get_tweet_key_by_id(cls, id):
+        user = UserLibrary.get_logged_user()
+        return user.email + '/' + str(id)
+
+    @classmethod
+    def get_tweets_by_user(cls):
+        user = UserLibrary.get_logged_user()
+        return Tweet.query(Tweet.user_email == user.email).fetch()
+
+    @classmethod
+    def delete_tweet(cls, id):
+        user = UserLibrary.get_logged_user()
+        key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
+        tweet = key.get()
+        if tweet:
+            key.delete()
+
+            user_key = ndb.Key('User', user.email)
+            user_record = user_key.get()
+            user_record.tweet_count = user_record.tweet_count - 1
+            user_record.put()
+            return True
+        return False
+
+

@@ -9,10 +9,13 @@ class ProfileController:
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
         logging.info(user['user'])
+        tweets = AccountHelper.get_tweets_by_user()
+        # logging.info(tweets[0].key.id().split("/")[1])
         template_values = {
             'url': user["url"],
             'url_string': user['url_string'],
-            'user': user['user']
+            'user': user['user'],
+            'tweets':tweets
         }
 
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
@@ -53,18 +56,11 @@ class ProfileController:
 
     @classmethod
     def delete_tweet(cls, request):
-        request.response.headers['Content-Type'] = 'text/html'
-        user = UserLibrary.get_user(request)
-
-        msg = ""
-        data = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'msg': msg
-        }
-        template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
-        request.response.write(template.render(data))
+        # request.response.headers['Content-Type'] = 'text/html'
+        logging.info(request.request.params["id"])
+        AccountHelper.delete_tweet(request.request.params["id"])
+        request.redirect("/profile?delete_success=delete_success")
+        return
 
     @classmethod
     def search_tweet(cls, request):

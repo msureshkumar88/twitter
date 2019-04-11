@@ -22,6 +22,9 @@ handlers:
 - url: /search_tweet
   script: request.search.app
 
+- url: /delete-tweet
+  script: request.profile.app
+
 
 - url: /assets
   static_dir: assets
