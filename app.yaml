@@ -16,5 +16,12 @@ handlers:
 - url: /profile
   script: request.profile.app
 
+- url: /search_user
+  script: request.search.app
+
+- url: /search_tweet
+  script: request.search.app
+
+
 - url: /assets
   static_dir: assets
