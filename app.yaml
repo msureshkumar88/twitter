@@ -25,6 +25,9 @@ handlers:
 - url: /delete-tweet
   script: request.profile.app
 
+- url: /edit-tweet
+  script: request.profile.app
+
 
 - url: /assets
   static_dir: assets

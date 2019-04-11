@@ -6,7 +6,7 @@
 <ul>
     {%for tweet in tweets%}
     <li>
-        {{tweet.text}}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a>
+        {{tweet.text}}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a> <a href="edit-tweet?id={{tweet.key.id().split('/')[1]}}">update</a>
     </li>
     {%endfor%}
 </ul>

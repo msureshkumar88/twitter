@@ -82,4 +82,21 @@ class AccountHelper:
             return True
         return False
 
+    @classmethod
+    def get_tweet_by_id(cls, id):
+        key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
+        tweet = key.get()
+        if tweet:
+            return tweet
+        return None
+
+    @classmethod
+    def update_tweet(cls, id, text):
+        key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
+        tweet = key.get()
+        if tweet:
+            tweet.text = text
+            tweet.put()
+            return True
+        return False
 

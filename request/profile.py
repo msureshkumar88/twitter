@@ -11,13 +11,15 @@ class ProfileRequest(webapp2.RequestHandler):
             ProfileController.show_profile(self)
         elif path in "/delete-tweet":
             ProfileController.delete_tweet(self)
+        elif path in "/edit-tweet":
+            ProfileController.update_tweet(self,"get")
 
     def post(self):
         form_name = self.request.get('form')
         if form_name == "save_tweet":
             ProfileController.save_tweet(self)
         elif form_name == "update_tweet":
-            ProfileController.update_tweet(self)
+            ProfileController.update_tweet(self, "post")
         elif form_name == "search_tweet":
             ProfileController.search_tweet(self)
         elif form_name == "search_user":
@@ -29,5 +31,6 @@ class ProfileRequest(webapp2.RequestHandler):
 
 app = webapp2.WSGIApplication([
     ('/profile', ProfileRequest),
-    ('/delete-tweet', ProfileRequest)
+    ('/delete-tweet', ProfileRequest),
+    ('/edit-tweet', ProfileRequest)
 ], debug=True)

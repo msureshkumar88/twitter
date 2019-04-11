@@ -28,30 +28,38 @@ class ProfileController:
         tweet = request.request.get("tweet")
         logging.info(tweet)
         AccountHelper.save_tweet(tweet)
-
+        tweets = AccountHelper.get_tweets_by_user()
         msg = ""
         data = {
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
-            'msg': msg
+            'msg': msg,
+            'tweets': tweets
         }
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))
 
     @classmethod
-    def update_tweet(cls, request):
+    def update_tweet(cls, request, type):
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
+        id = request.request.params["id"]
+        text = request.request.get("tweet")
+        tweet = AccountHelper.get_tweet_by_id(id)
+        if type == "post":
+            AccountHelper.update_tweet(id, text)
 
         msg = ""
         data = {
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
-            'msg': msg
+            'msg': msg,
+            'tweet': tweet,
+            'id':id
         }
-        template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
+        template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/edit_tweet.html')
         request.response.write(template.render(data))
 
     @classmethod
