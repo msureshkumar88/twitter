@@ -7,7 +7,7 @@ class ProfileRequest(webapp2.RequestHandler):
     def get(self):
         path = self.request.path
         if path == "/profile":
-            AccountController.update_profile_get(self)
+            ProfileController.show_profile(self)
 
     def post(self):
         form_name = self.request.get('form')
