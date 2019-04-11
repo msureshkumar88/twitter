@@ -21,6 +21,8 @@ class ProfileRequest(webapp2.RequestHandler):
             ProfileController.search_tweet(self)
         elif form_name == "search_user":
             ProfileController.search_user(self)
+        elif form_name == "update_following_status":
+            ProfileController.update_following_status(self)
 
 
 
