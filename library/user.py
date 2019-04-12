@@ -70,3 +70,10 @@ class UserLibrary:
             user.put()
             msg = "Username saved successfully"
         return msg
+
+    @classmethod
+    def get_user_by_username(cls, username):
+        user = User.query(User.user_name == username).fetch()
+        if user:
+            return user[0]
+        return None

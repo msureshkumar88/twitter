@@ -10,12 +10,15 @@ class ProfileController:
         user = UserLibrary.get_user(request)
         logging.info(user['user'])
         tweets = AccountHelper.get_tweets_by_user()
+        # id = request.request.params["user"]
+
         # logging.info(tweets[0].key.id().split("/")[1])
         template_values = {
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
-            'tweets':tweets
+            'tweets':tweets,
+            'other_user':  AccountHelper.in_other_profile(request.request.params)
         }
 
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')

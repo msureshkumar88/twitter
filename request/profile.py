@@ -7,7 +7,7 @@ class ProfileRequest(webapp2.RequestHandler):
     def get(self):
         path = self.request.path
         logging.info(path)
-        if path == "/profile":
+        if path in "/profile":
             ProfileController.show_profile(self)
         elif path in "/delete-tweet":
             ProfileController.delete_tweet(self)

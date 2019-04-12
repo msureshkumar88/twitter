@@ -100,3 +100,13 @@ class AccountHelper:
             return True
         return False
 
+    @classmethod
+    def in_other_profile(cls, params):
+        if 'user' in params:
+            user = UserLibrary.get_user_by_username(params["user"])
+            if user:
+                return user
+        return None
+
+
+

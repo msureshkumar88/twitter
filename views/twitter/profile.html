@@ -1,3 +1,4 @@
+{% if not other_user%}
 <form name="save_tweet" method="post" action="/profile">
     <textarea name="tweet"></textarea>
     <input type="hidden" name="form" value="save_tweet">
@@ -10,3 +11,4 @@
     </li>
     {%endfor%}
 </ul>
+{% endif %}
