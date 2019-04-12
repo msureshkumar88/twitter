@@ -6,3 +6,4 @@ class Tweet(ndb.Model):
     date_added = ndb.DateTimeProperty(auto_now_add=True)
     image = ndb.StringProperty()
     user_email = ndb.StringProperty()
+    user_name = ndb.StringProperty()

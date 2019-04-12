@@ -44,7 +44,7 @@ class AccountHelper:
     @classmethod
     def save_tweet(cls, text):
         user = UserLibrary.get_logged_user()
-        tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email)
+        tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email, user_name = user.user_name)
         tweet.put()
 
         user_key = ndb.Key('User', user.email)
@@ -66,11 +66,15 @@ class AccountHelper:
     @classmethod
     def get_tweets_by_user(cls, params=None):
         user = None
+        tweet = []
         if 'user' in params:
             user = AccountHelper.in_other_profile(params)
+            tweet = Tweet.query(Tweet.user_email == user.email).order(-Tweet.date_added).fetch()
         else:
             user = UserLibrary.get_logged_user()
-        return Tweet.query(Tweet.user_email == user.email).fetch()
+            user.following.append(user.user_name)
+            tweet = Tweet.query(Tweet.user_name.IN(user.following)).order(-Tweet.date_added).fetch()
+        return tweet
 
     @classmethod
     def delete_tweet(cls, id):
