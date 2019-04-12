@@ -1,9 +1,20 @@
 
 Followers: {{profile_data.follows_count}} Following: {{profile_data.following_count}}
-
-
-
-
+<br>
+Username {{profile_data.user_name}}
+<br>
+Name {{profile_data.first_name}}{{profile_data.last_name}}
+<br>
+{{profile_data.bio}}
+<br>
+{{profile_data.joined}}
+<br>
+{{profile_data.dob}}
+<br>
+{{profile_data.city}}
+<br>
+{{profile_data.website}}
+<br>
 {% if other_user%}
 <button>Follow</button>
 {% endif %}
