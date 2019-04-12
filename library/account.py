@@ -2,6 +2,7 @@ import logging
 import re
 from library.user import UserLibrary
 from models.tweet import Tweet
+from models.user import User
 from google.appengine.ext import ndb
 import datetime
 import time
@@ -118,6 +119,46 @@ class AccountHelper:
         if 'user' in params:
             user = UserLibrary.get_user_by_username(params["user"])
         return user
+
+    @classmethod
+    def get_follow_status(cls, username):
+        user = UserLibrary.get_logged_user()
+        result = User.query(User.user_name == user.user_name, User.following == username).fetch()
+        if result:
+            return True
+        return False
+
+    @classmethod
+    def get_following_text(cls, username):
+        text = "Follow"
+        if AccountHelper.get_follow_status(username):
+            text = "Unfollow"
+        return text
+
+    @classmethod
+    def change_following_status(cls,status,user):
+        if status == "Follow":
+            current_user = UserLibrary.get_logged_user()
+            current_user.following_count = current_user.following_count + 1
+            current_user.following.append(user)
+            current_user.put()
+
+            following_user = UserLibrary.get_user_by_username(user)
+            following_user.follows_count = following_user.follows_count + 1
+            following_user.follows.append(current_user.user_name)
+            following_user.put()
+        else:
+            current_user = UserLibrary.get_logged_user()
+            current_user.following_count = current_user.following_count - 1
+            current_user.following.remove(user)
+            current_user.put()
+
+            following_user = UserLibrary.get_user_by_username(user)
+            following_user.follows_count = following_user.follows_count - 1
+            following_user.follows.remove(current_user.user_name)
+            following_user.put()
+
+
 
 
 

@@ -3,27 +3,17 @@ import template_engine
 from library.user import UserLibrary
 from library.account import AccountHelper
 
+
 class ProfileController:
     @classmethod
     def show_profile(cls, request):
         request.response.headers['Content-Type'] = 'text/html'
-        user = UserLibrary.get_user(request)
-        logging.info(user['user'])
-        tweets = AccountHelper.get_tweets_by_user(request.request.params)
-        # id = request.request.params["user"]
-
-        # logging.info(tweets[0].key.id().split("/")[1])
-        template_values = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'tweets':tweets,
-            'other_user':  AccountHelper.in_other_profile(request.request.params),
-            'profile_data': AccountHelper.get_profile_data(request.request.params)
-        }
-
+        user = UserLibrary.get_logged_user()
+        other_user = AccountHelper.in_other_profile(request.request.params)
+        if other_user and user.user_name == other_user.user_name:
+            return request.redirect('/profile')
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
-        request.response.write(template.render(template_values))
+        request.response.write(template.render(ProfileController.get_profile_template_data(request)))
 
     @classmethod
     def save_tweet(cls, request):
@@ -32,15 +22,12 @@ class ProfileController:
         tweet = request.request.get("tweet")
         logging.info(tweet)
         AccountHelper.save_tweet(tweet)
-        tweets = AccountHelper.get_tweets_by_user()
+        tweets = AccountHelper.get_tweets_by_user(request.request.params)
         msg = ""
-        data = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'msg': msg,
-            'tweets': tweets
-        }
+        data = ProfileController.get_profile_template_data(request)
+        data['msg'] = msg
+        data['tweets'] = tweets
+
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))
 
@@ -61,7 +48,7 @@ class ProfileController:
             'user': user['user'],
             'msg': msg,
             'tweet': tweet,
-            'id':id
+            'id': id
         }
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/edit_tweet.html')
         request.response.write(template.render(data))
@@ -107,16 +94,31 @@ class ProfileController:
     @classmethod
     def update_following_status(cls, request):
         request.response.headers['Content-Type'] = 'text/html'
-        user = UserLibrary.get_user(request)
 
-        msg = ""
-        data = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'msg': msg
-        }
+        other_user = AccountHelper.in_other_profile(request.request.params)
+        AccountHelper.change_following_status(request.request.get("btn_text"), other_user.user_name)
+
+        data = ProfileController.get_profile_template_data(request)
+
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))
 
-
+    @classmethod
+    def get_profile_template_data(cls, request):
+        user = UserLibrary.get_user(request)
+        tweets = AccountHelper.get_tweets_by_user(request.request.params)
+        other_user = AccountHelper.in_other_profile(request.request.params)
+        follow_text = ""
+        if other_user:
+            AccountHelper.get_follow_status(other_user.user_name)
+            follow_text = AccountHelper.get_following_text(other_user.user_name)
+        template_values = {
+            'url': user["url"],
+            'url_string': user['url_string'],
+            'user': user['user'],
+            'tweets': tweets,
+            'other_user': other_user,
+            'profile_data': AccountHelper.get_profile_data(request.request.params),
+            'follow_text': follow_text
+        }
+        return template_values

@@ -16,7 +16,10 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 {{profile_data.website}}
 <br>
 {% if other_user%}
-<button>Follow</button>
+<form method="post" action="profile?user={{profile_data.user_name}}">
+    <input type="hidden" name="form" value="update_following_status">
+<input type="submit" name="btn_text" value="{{follow_text}}">
+</form>
 {% endif %}
 
 {% if not other_user%}
