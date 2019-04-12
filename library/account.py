@@ -63,8 +63,12 @@ class AccountHelper:
         return user.email + '/' + str(id)
 
     @classmethod
-    def get_tweets_by_user(cls):
-        user = UserLibrary.get_logged_user()
+    def get_tweets_by_user(cls, params=None):
+        user = None
+        if params:
+            user = AccountHelper.in_other_profile(params)
+        else:
+            user = UserLibrary.get_logged_user()
         return Tweet.query(Tweet.user_email == user.email).fetch()
 
     @classmethod
@@ -107,6 +111,14 @@ class AccountHelper:
             if user:
                 return user
         return None
+
+    @classmethod
+    def get_profile_data(cls, params=None):
+        user = UserLibrary.get_logged_user()
+        if 'user' in params:
+            user = UserLibrary.get_user_by_username(params["user"])
+        return user
+
 
 
 

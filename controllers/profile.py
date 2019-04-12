@@ -9,7 +9,7 @@ class ProfileController:
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
         logging.info(user['user'])
-        tweets = AccountHelper.get_tweets_by_user()
+        tweets = AccountHelper.get_tweets_by_user(request.request.params)
         # id = request.request.params["user"]
 
         # logging.info(tweets[0].key.id().split("/")[1])
@@ -18,7 +18,8 @@ class ProfileController:
             'url_string': user['url_string'],
             'user': user['user'],
             'tweets':tweets,
-            'other_user':  AccountHelper.in_other_profile(request.request.params)
+            'other_user':  AccountHelper.in_other_profile(request.request.params),
+            'profile_data': AccountHelper.get_profile_data(request.request.params)
         }
 
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
