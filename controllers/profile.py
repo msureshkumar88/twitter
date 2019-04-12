@@ -10,6 +10,11 @@ class ProfileController:
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_logged_user()
         other_user = AccountHelper.in_other_profile(request.request.params)
+        logging.info(other_user)
+        if 'user' in request.request.params:
+            if not other_user:
+                return request.redirect('/profile')
+            
         if other_user and user.user_name == other_user.user_name:
             return request.redirect('/profile')
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
@@ -82,12 +87,17 @@ class ProfileController:
         user = UserLibrary.get_user(request)
 
         msg = ""
-        data = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'msg': msg
-        }
+        data = ProfileController.get_profile_template_data(request)
+        data["search_user"] = True
+        result = AccountHelper.search_by_username(request.request.params)
+        message = ""
+        if not result:
+            message = "No user found"
+        data['message'] = message
+
+
+        data['result'] = result
+
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))
 

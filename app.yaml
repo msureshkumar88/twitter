@@ -16,8 +16,8 @@ handlers:
 - url: /profile
   script: request.profile.app
 
-- url: /search_user
-  script: request.search.app
+- url: /search-user
+  script: request.profile.app
 
 - url: /search_tweet
   script: request.search.app

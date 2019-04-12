@@ -3,6 +3,7 @@ import webapp2
 import logging
 from controllers.profile import ProfileController
 
+
 class ProfileRequest(webapp2.RequestHandler):
     def get(self):
         path = self.request.path
@@ -13,6 +14,8 @@ class ProfileRequest(webapp2.RequestHandler):
             ProfileController.delete_tweet(self)
         elif path in "/edit-tweet":
             ProfileController.update_tweet(self,"get")
+        elif path in "/search-user":
+            ProfileController.search_user(self)
 
     def post(self):
         form_name = self.request.get('form')
@@ -32,5 +35,6 @@ class ProfileRequest(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
     ('/profile', ProfileRequest),
     ('/delete-tweet', ProfileRequest),
-    ('/edit-tweet', ProfileRequest)
+    ('/edit-tweet', ProfileRequest),
+    ('/search-user', ProfileRequest)
 ], debug=True)

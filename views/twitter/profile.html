@@ -1,3 +1,7 @@
+<form name="save_tweet" method="get" action="/search-user">
+    <input type="text" name="username">
+    <input type="submit" value="Search User">
+</form>
 
 Followers: {{profile_data.follows_count}} Following: {{profile_data.following_count}}
 <br>
@@ -15,6 +19,10 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 <br>
 {{profile_data.website}}
 <br>
+
+
+{% if not search_user %}
+
 {% if other_user%}
 <form method="post" action="profile?user={{profile_data.user_name}}">
     <input type="hidden" name="form" value="update_following_status">
@@ -37,3 +45,18 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
     </li>
     {%endfor%}
 </ul>
+
+{% endif %}
+
+{% if search_user %}
+<h1>Search by user</h1>
+{% if result %}
+{{message}}
+{{result.user_name}}<br>
+{{result.first_name}} {{result.last_name}}<br>
+{{result.bio}}<br>
+<a href="/profile?user={{result.user_name}}">view</a>
+{% endif %}
+
+
+{% endif %}

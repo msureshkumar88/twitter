@@ -66,7 +66,7 @@ class AccountHelper:
     @classmethod
     def get_tweets_by_user(cls, params=None):
         user = None
-        if params:
+        if 'user' in params:
             user = AccountHelper.in_other_profile(params)
         else:
             user = UserLibrary.get_logged_user()
@@ -157,6 +157,14 @@ class AccountHelper:
             following_user.follows_count = following_user.follows_count - 1
             following_user.follows.remove(current_user.user_name)
             following_user.put()
+
+    @classmethod
+    def search_by_username(cls, params):
+        if params and "username" in params:
+            user = User.query(User.user_name == params['username']).fetch()
+            if user:
+                return user[0]
+            return None
 
 
 
