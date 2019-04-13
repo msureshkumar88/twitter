@@ -182,7 +182,10 @@ class AccountHelper:
     def search_tweet(cls, params):
         if params and "text" in params:
             index = search.Index('tweet')
-            search_query = search.Query(query_string=params['text'].lower())
+            text = params['text'].lower().rstrip()
+            if len(text) == 0:
+                return []
+            search_query = search.Query(query_string=text)
             search_results = index.search(search_query)
             tweets = []
             for doc in search_results:
