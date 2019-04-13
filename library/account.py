@@ -6,7 +6,7 @@ from models.user import User
 from google.appengine.ext import ndb
 import datetime
 import time
-
+from google.appengine.api import search
 
 class AccountHelper:
     @classmethod
@@ -51,6 +51,14 @@ class AccountHelper:
         user_record = user_key.get()
         user_record.tweet_count = user_record.tweet_count + 1
         user_record.put()
+
+        d = search.Document(
+            doc_id=AccountHelper.get_tweet_key(),
+            fields=[search.TextField(name='tweet', value=text),
+                    search.TextField(name='user_name', value=user.user_name)],
+            language='en')
+
+        add_result = search.Index(name='tweet').put(d)
 
     @classmethod
     def get_tweet_key(cls):
@@ -170,8 +178,22 @@ class AccountHelper:
                 return user[0]
             return None
 
+    @classmethod
+    def search_tweet(cls, params):
+        if params and "text" in params:
+            index = search.Index('tweet')
+            search_query = search.Query(query_string=params['text'].lower())
+            search_results = index.search(search_query)
+            tweets = []
+            for doc in search_results:
+                tweets.append(AccountHelper.get_tweet_by_id(doc.doc_id))
 
+            return tweets
 
+    @classmethod
+    def get_tweet_by_id(cls, id):
+        key = ndb.Key('Tweet', id)
+        return key.get()
 
 
 

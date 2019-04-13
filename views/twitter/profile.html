@@ -2,6 +2,10 @@
     <input type="text" name="username">
     <input type="submit" value="Search User">
 </form>
+<form name="save_tweet" method="get" action="/search-tweet">
+    <input type="text" name="text">
+    <input type="submit" value="Search tweet">
+</form>
 
 Followers: {{profile_data.follows_count}} Following: {{profile_data.following_count}} Tweets : {{profile_data.tweet_count}}
 <br>
@@ -21,7 +25,7 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 <br>
 
 
-{% if not search_user %}
+{% if not search_user and not search_tweet%}
 
 {% if other_user%}
 <form method="post" action="profile?user={{profile_data.user_name}}">
@@ -48,7 +52,7 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 
 {% endif %}
 
-{% if search_user %}
+{% if search_user and not search_tweet%}
 <h1>Search by user</h1>
 {% if result %}
 {{message}}
@@ -56,6 +60,21 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 {{result.first_name}} {{result.last_name}}<br>
 {{result.bio}}<br>
 <a href="/profile?user={{result.user_name}}">view</a>
+{% endif %}
+
+
+{% endif %}
+
+{% if search_tweet %}
+<h1>Search by tweet</h1>
+
+{% if result %}
+{{message}}
+{%for tweet in result%}
+{{tweet.text}}@{{tweet.user_name}}
+<a href="/profile?user={{tweet.user_name}}">view</a><br>
+{%endfor%}
+
 {% endif %}
 
 

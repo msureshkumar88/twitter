@@ -2,7 +2,7 @@ import logging
 import template_engine
 from library.user import UserLibrary
 from library.account import AccountHelper
-
+from google.appengine.api import search
 
 class ProfileController:
     @classmethod
@@ -14,7 +14,7 @@ class ProfileController:
         if 'user' in request.request.params:
             if not other_user:
                 return request.redirect('/profile')
-            
+
         if other_user and user.user_name == other_user.user_name:
             return request.redirect('/profile')
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
@@ -24,6 +24,19 @@ class ProfileController:
     def save_tweet(cls, request):
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
+
+        # d= search.Document(
+        #     doc_id='documentId',
+        #     fields=[search.TextField(name='tweet', value=request.request.get("tweet")),
+        #             search.TextField(name='user_name', value=request.request.get("tweet"))],
+        #     language='en')
+        #
+        # add_result = search.Index(name='tweets').put(d)
+
+
+
+
+        return
         tweet = request.request.get("tweet")
         logging.info(tweet)
         AccountHelper.save_tweet(tweet)
@@ -71,13 +84,16 @@ class ProfileController:
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
 
-        msg = ""
-        data = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'msg': msg
-        }
+        data = ProfileController.get_profile_template_data(request)
+        data["search_tweet"] = True
+        result = AccountHelper.search_tweet(request.request.params)
+        logging.info(result)
+        message = ""
+        if not result:
+            message = "No tweets found"
+        data['message'] = message
+        data["result"] = result
+
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))
 
@@ -94,7 +110,6 @@ class ProfileController:
         if not result:
             message = "No user found"
         data['message'] = message
-
 
         data['result'] = result
 

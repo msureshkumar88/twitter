@@ -19,8 +19,8 @@ handlers:
 - url: /search-user
   script: request.profile.app
 
-- url: /search_tweet
-  script: request.search.app
+- url: /search-tweet
+  script: request.profile.app
 
 - url: /delete-tweet
   script: request.profile.app

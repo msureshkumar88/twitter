@@ -16,6 +16,8 @@ class ProfileRequest(webapp2.RequestHandler):
             ProfileController.update_tweet(self,"get")
         elif path in "/search-user":
             ProfileController.search_user(self)
+        elif path in "/search-tweet":
+            ProfileController.search_tweet(self)
 
     def post(self):
         form_name = self.request.get('form')
@@ -36,5 +38,6 @@ app = webapp2.WSGIApplication([
     ('/profile', ProfileRequest),
     ('/delete-tweet', ProfileRequest),
     ('/edit-tweet', ProfileRequest),
-    ('/search-user', ProfileRequest)
+    ('/search-user', ProfileRequest),
+    ('/search-tweet', ProfileRequest),
 ], debug=True)
