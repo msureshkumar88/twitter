@@ -26,12 +26,13 @@ class ProfileController:
         user = UserLibrary.get_user(request)
 
         tweet = request.request.get("tweet")
-        AccountHelper.save_tweet(tweet)
+        result = AccountHelper.save_tweet(tweet)
         tweets = AccountHelper.get_tweets_by_user(request.request.params)
         msg = ""
         data = ProfileController.get_profile_template_data(request)
         data['msg'] = msg
         data['tweets'] = tweets
+        data['result'] = result
 
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))

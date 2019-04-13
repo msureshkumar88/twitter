@@ -43,6 +43,11 @@ class AccountHelper:
 
     @classmethod
     def save_tweet(cls, text):
+        if len(text) == 0:
+            return {"status": False, "message": "Tweet field cannot be empty"}
+        if len(text)> 280:
+            return {"status":False,"message":"Tweet field character limit exceeded, only 280 allowed"}
+
         user = UserLibrary.get_logged_user()
         tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email, user_name = user.user_name)
         tweet.put()
@@ -59,6 +64,7 @@ class AccountHelper:
             language='en')
 
         add_result = search.Index(name='tweet').put(d)
+        return {"status": True, "message": "Tweet saved successfully"}
 
     @classmethod
     def get_tweet_key(cls):
