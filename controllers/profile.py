@@ -25,20 +25,7 @@ class ProfileController:
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
 
-        # d= search.Document(
-        #     doc_id='documentId',
-        #     fields=[search.TextField(name='tweet', value=request.request.get("tweet")),
-        #             search.TextField(name='user_name', value=request.request.get("tweet"))],
-        #     language='en')
-        #
-        # add_result = search.Index(name='tweets').put(d)
-
-
-
-
-        return
         tweet = request.request.get("tweet")
-        logging.info(tweet)
         AccountHelper.save_tweet(tweet)
         tweets = AccountHelper.get_tweets_by_user(request.request.params)
         msg = ""
