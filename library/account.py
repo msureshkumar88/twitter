@@ -7,7 +7,8 @@ from google.appengine.ext import ndb
 import datetime
 import time
 from google.appengine.api import search
-
+from google.appengine.api import images
+from google.appengine.ext import blobstore
 class AccountHelper:
     @classmethod
     def update_profile(cls, request_data):
@@ -53,6 +54,10 @@ class AccountHelper:
         upload = None
         if file:
             upload = file[0].key()
+            info = blobstore.BlobReader(upload)
+            if info.blob_info.content_type not in ['image/jpeg','image/png']:
+                blobstore.delete(upload)
+                return {"status": True, "message": "Only png PNG and JPEG can be uploaded"}
 
         user = UserLibrary.get_logged_user()
         tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email, user_name = user.user_name, image=upload)
