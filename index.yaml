@@ -15,8 +15,8 @@ indexes:
   properties:
   - name: "user_email"
   - name: "date_added"
+    direction: desc
 - kind: "Tweet"
   properties:
   - name: "user_email"
   - name: "date_added"
-    direction: desc
