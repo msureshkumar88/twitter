@@ -12,10 +12,14 @@ class HomeController(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(self)
         logging.info(user['user'])
+        # if user['user'].user_name:
+        #     self.redirect('/profile')
+
         template_values = {
             'url': user["url"],
             'url_string': user['url_string'],
-            'user': user['user']
+            'user': user['user'],
+            'result': {}
         }
 
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/home.html')
@@ -26,13 +30,13 @@ class HomeController(webapp2.RequestHandler):
         user = UserLibrary.get_user(self)
 
         userName = self.request.get("username")
-        msg = UserLibrary.update_username(userName)
+        result = UserLibrary.update_username(userName)
 
         data = {
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
-            'msg': msg
+            'result': result
         }
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/home.html')
         self.response.write(template.render(data))

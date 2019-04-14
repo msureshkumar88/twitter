@@ -12,6 +12,8 @@ class ProfileController:
     def show_profile(cls, request):
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_logged_user()
+        if not user.user_name:
+            request.redirect('/')
         other_user = AccountHelper.in_other_profile(request.request.params)
         logging.info(other_user)
         data = ProfileController.get_profile_template_data(request)

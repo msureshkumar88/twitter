@@ -6,7 +6,15 @@
 </head>
 <body>
 <a class="nav-link" href="{{url}}">{{url_string}}</a>
-{%if msg %}<p>{{msg}}</p> {% endif %}
+{%if result %}
+<p>{{result.message}}</p>
+{% endif %}
+
+{%if result.status %}
+<a href="/profile">Visit your profile</a>
+{% endif %}
+
+
 {% if user and not user.user_name %}
     <form name="/" method="post">
         <input type="text" name="username">
