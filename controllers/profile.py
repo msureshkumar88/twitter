@@ -3,6 +3,9 @@ import template_engine
 from library.user import UserLibrary
 from library.account import AccountHelper
 from google.appengine.api import search
+from google.appengine.ext import blobstore
+from google.appengine.api import images
+
 
 class ProfileController:
     @classmethod
@@ -11,6 +14,9 @@ class ProfileController:
         user = UserLibrary.get_logged_user()
         other_user = AccountHelper.in_other_profile(request.request.params)
         logging.info(other_user)
+        data = ProfileController.get_profile_template_data(request)
+        data['upload_url'] = blobstore.create_upload_url('/save-tweet')
+
         if 'user' in request.request.params:
             if not other_user:
                 return request.redirect('/profile')
@@ -18,7 +24,7 @@ class ProfileController:
         if other_user and user.user_name == other_user.user_name:
             return request.redirect('/profile')
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
-        request.response.write(template.render(ProfileController.get_profile_template_data(request)))
+        request.response.write(template.render(data))
 
     @classmethod
     def save_tweet(cls, request):
@@ -26,14 +32,14 @@ class ProfileController:
         user = UserLibrary.get_user(request)
 
         tweet = request.request.get("tweet")
-        result = AccountHelper.save_tweet(tweet)
+        result = AccountHelper.save_tweet(request)
         tweets = AccountHelper.get_tweets_by_user(request.request.params)
         msg = ""
         data = ProfileController.get_profile_template_data(request)
         data['msg'] = msg
         data['tweets'] = tweets
         data['result'] = result
-
+        request.redirect('/profile')
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/profile.html')
         request.response.write(template.render(data))
 
@@ -132,6 +138,7 @@ class ProfileController:
             'tweets': tweets,
             'other_user': other_user,
             'profile_data': AccountHelper.get_profile_data(request.request.params),
-            'follow_text': follow_text
+            'follow_text': follow_text,
+            'images': images
         }
         return template_values

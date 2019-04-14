@@ -38,11 +38,17 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 {% if result %}
 {{result.message}}
 {% endif %}
-<form name="save_tweet" method="post" action="/profile">
-    <textarea name="tweet"></textarea>
-    <input type="hidden" name="form" value="save_tweet">
-    <input type="submit" value="Tweet">
-</form>
+<!--<form name="save_tweet" method="post" action="/profile">-->
+    <!--<textarea name="tweet"></textarea>-->
+    <!--<input type="hidden" name="form" value="save_tweet">-->
+    <!--<input type="submit" value="Tweet">-->
+<!--</form>-->
+ <form action='{{upload_url}}' method="post" name="save_tweet" enctype="multipart/form-data">
+        <textarea name="tweet"></textarea>
+        <input type="hidden" name="form" value="save_tweet"><br>
+        <input type="file" name="myFile"><br>
+        <input type="submit" value="Tweet">
+ </form>
 {% endif %}
 
 <ul>
@@ -50,6 +56,9 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
     <li>
         {{tweet.text}}{% if not other_user%}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a> <a href="edit-tweet?id={{tweet.key.id().split('/')[1]}}">update</a>{% endif %}
     </li>
+    {% if tweet.image %}
+    <img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"/>
+    {% endif %}
     {%endfor%}
 </ul>
 

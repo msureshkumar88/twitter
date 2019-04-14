@@ -28,6 +28,9 @@ handlers:
 - url: /edit-tweet
   script: request.profile.app
 
+- url: /save-tweet
+  script: request.profile.app
+
 
 - url: /assets
   static_dir: assets

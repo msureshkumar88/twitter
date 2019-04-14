@@ -42,14 +42,20 @@ class AccountHelper:
         pass
 
     @classmethod
-    def save_tweet(cls, text):
+    def save_tweet(cls, request):
+        text = request.request.get("tweet")
+        file = request.get_uploads()
         if len(text) == 0:
             return {"status": False, "message": "Tweet field cannot be empty"}
         if len(text)> 280:
             return {"status":False,"message":"Tweet field character limit exceeded, only 280 allowed"}
 
+        upload = None
+        if file:
+            upload = file[0].key()
+
         user = UserLibrary.get_logged_user()
-        tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email, user_name = user.user_name)
+        tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email, user_name = user.user_name, image=upload)
         tweet.put()
 
         user_key = ndb.Key('User', user.email)

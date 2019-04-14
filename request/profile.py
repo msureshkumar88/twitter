@@ -2,6 +2,7 @@ import webapp2
 
 import logging
 from controllers.profile import ProfileController
+from google.appengine.ext.webapp import blobstore_handlers
 
 
 class ProfileRequest(webapp2.RequestHandler):
@@ -33,6 +34,10 @@ class ProfileRequest(webapp2.RequestHandler):
             ProfileController.update_following_status(self)
 
 
+class SaveTweetRequest(blobstore_handlers.BlobstoreUploadHandler):
+    def post(self):
+        ProfileController.save_tweet(self)
+
 
 app = webapp2.WSGIApplication([
     ('/profile', ProfileRequest),
@@ -40,4 +45,5 @@ app = webapp2.WSGIApplication([
     ('/edit-tweet', ProfileRequest),
     ('/search-user', ProfileRequest),
     ('/search-tweet', ProfileRequest),
+    ('/save-tweet', SaveTweetRequest),
 ], debug=True)
