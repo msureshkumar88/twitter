@@ -107,7 +107,11 @@ class AccountHelper:
         key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
         tweet = key.get()
         if tweet:
-            blobstore.delete(tweet.image)
+            if tweet.image:
+                blobstore.delete(tweet.image)
+
+            index = search.Index('tweet')
+            index.delete(AccountHelper.get_tweet_key_by_id(id))
             key.delete()
 
             user_key = ndb.Key('User', user.email)
