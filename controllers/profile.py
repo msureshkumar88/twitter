@@ -100,10 +100,10 @@ class ProfileController:
         data = ProfileController.get_profile_template_data(request)
         data["search_user"] = True
         result = AccountHelper.search_by_username(request.request.params)
-        message = ""
-        if not result:
-            message = "No user found"
-        data['message'] = message
+        # message = ""
+        # if not result:
+        #     message = "No user found"
+        # data['message'] = message
 
         data['result'] = result
 

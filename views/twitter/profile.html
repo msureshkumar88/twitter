@@ -66,12 +66,14 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 
 {% if search_user and not search_tweet%}
 <h1>Search by user</h1>
-{% if result %}
-{{message}}
-{{result.user_name}}<br>
-{{result.first_name}} {{result.last_name}}<br>
-{{result.bio}}<br>
-<a href="/profile?user={{result.user_name}}">view</a>
+
+{% if result.status %}
+{{result.data.user_name}}<br>
+{{result.data.first_name}} {{result.data.last_name}}<br>
+{{result.data.bio}}<br>
+<a href="/profile?user={{result.data.user_name}}">view</a>
+{% else %}
+{{result.message}}
 {% endif %}
 
 

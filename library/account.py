@@ -190,11 +190,14 @@ class AccountHelper:
 
     @classmethod
     def search_by_username(cls, params):
+
         if params and "username" in params:
+            if len(params['username'])==0:
+                return {"status": False, "message":"Please enter search value", "data" : None}
             user = User.query(User.user_name == params['username']).fetch()
             if user:
-                return user[0]
-            return None
+                return {"status": True, "message":"", "data" : user[0]}
+            return {"status": False, "message": "User not found", "data": None}
 
     @classmethod
     def search_tweet(cls, params):
