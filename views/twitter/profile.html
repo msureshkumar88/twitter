@@ -35,8 +35,8 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 {% endif %}
 
 {% if not other_user%}
-{% if result %}
-{{result.message}}
+{% if save_result %}
+{{save_result.message}}
 {% endif %}
 <!--<form name="save_tweet" method="post" action="/profile">-->
     <!--<textarea name="tweet"></textarea>-->

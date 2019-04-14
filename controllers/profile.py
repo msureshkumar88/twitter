@@ -16,6 +16,10 @@ class ProfileController:
         logging.info(other_user)
         data = ProfileController.get_profile_template_data(request)
         data['upload_url'] = blobstore.create_upload_url('/save-tweet')
+        data['save_result'] = request.session.get('save_result')
+
+        if "save_result" in request.session:
+            del request.session['save_result']
 
         if 'user' in request.request.params:
             if not other_user:
@@ -33,6 +37,7 @@ class ProfileController:
 
         tweet = request.request.get("tweet")
         result = AccountHelper.save_tweet(request)
+        request.session['save_result'] = result
         tweets = AccountHelper.get_tweets_by_user(request.request.params)
         msg = ""
         data = ProfileController.get_profile_template_data(request)
