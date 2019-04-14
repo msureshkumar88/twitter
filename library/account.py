@@ -89,11 +89,11 @@ class AccountHelper:
         tweet = []
         if 'user' in params:
             user = AccountHelper.in_other_profile(params)
-            tweet = Tweet.query(Tweet.user_email == user.email).order(-Tweet.date_added).fetch()
+            tweet = Tweet.query(Tweet.user_email == user.email).order(-Tweet.date_added).fetch(50)
         else:
             user = UserLibrary.get_logged_user()
             user.following.append(user.user_name)
-            tweet = Tweet.query(Tweet.user_name.IN(user.following)).order(-Tweet.date_added).fetch()
+            tweet = Tweet.query(Tweet.user_name.IN(user.following)).order(-Tweet.date_added).fetch(50)
         return tweet
 
     @classmethod
