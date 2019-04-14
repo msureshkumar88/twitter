@@ -81,14 +81,16 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 
 {% if search_tweet %}
 <h1>Search by tweet</h1>
-{{message}}
-{% if result %}
 
-{%for tweet in result%}
+{% if result.status %}
+
+{%for tweet in result.data%}
 {{tweet.text}}
 <a href="/profile?user={{tweet.user_name}}">@{{tweet.user_name}}</a><br>
 {%endfor%}
 
+{% else %}
+{{result.message}}
 {% endif %}
 
 

@@ -205,14 +205,14 @@ class AccountHelper:
             index = search.Index('tweet')
             text = params['text'].lower().rstrip()
             if len(text) == 0:
-                return []
+                return {"status": False, "message":"Search tweet field cannot be empty", "data" : None}
             search_query = search.Query(query_string=text)
             search_results = index.search(search_query)
             tweets = []
             for doc in search_results:
                 tweets.append(AccountHelper.get_tweet_by_id(doc.doc_id))
 
-            return tweets
+            return {"status": True, "message": "", "data": tweets}
 
     @classmethod
     def get_tweet_by_id(cls, id):
