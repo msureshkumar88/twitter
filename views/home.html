@@ -1,26 +1,41 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<a class="nav-link" href="{{url}}">{{url_string}}</a>
-{%if result %}
-<p>{{result.message}}</p>
-{% endif %}
-
-{%if result.status %}
-<a href="/profile">Visit your profile</a>
-{% endif %}
+{% extends "/templates/home.html" %}
+{% block content %}
+<form class="form-signin" action="/" method="post">
+    {%if result and result.status %}
+    <div class="alert alert-success">{{result.message}}</div>
+    {% endif %}
+    {% if user and not user.user_name %}
 
 
-{% if user and not user.user_name %}
-    <form name="/" method="post">
-        <input type="text" name="username">
-        <input type="submit">
-    </form>
-{% endif %}
 
-</body>
-</html>
+    {%if result and not result.status %}
+    <div class="alert alert-danger">{{result.message}}</div>
+    {% endif %}
+
+    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+    <h1 class="h3 mb-3 font-weight-normal">Please Enter an Username</h1>
+    <label for="inputEmail" class="sr-only">Username</label>
+    <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="username" autofocus>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    {% endif %}
+
+    {%if result.status %}
+    <a href="/profile">Visit your profile</a>
+    {% endif %}
+
+    {% if not user %}
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <a class="btn btn-lg btn-primary btn-block" href="{{url}}">{{url_string}}</a>
+    <p class="mt-5 mb-3 text-muted">&copy; 2017-2019</p>
+    {% endif %}
+</form>
+{% endblock %}
+
+
+<!--{% if user and not user.user_name %}-->
+<!--<form name="/" method="post">-->
+<!--<input type="text" name="username">-->
+<!--<input type="submit">-->
+<!--</form>-->
+<!--{% endif %}-->
+
