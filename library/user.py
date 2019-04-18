@@ -15,7 +15,7 @@ class UserLibrary:
         myuser = None
         user_key = ""
         if user:
-            url = users.create_logout_url(request.request.uri)
+            url = users.create_logout_url("/")
             url_string = 'Logout'
             myuser_key = ndb.Key('User', user.email())
             myuser = myuser_key.get()
@@ -24,7 +24,7 @@ class UserLibrary:
                 myuser = User(id=user.email(), email=user.email())
                 myuser.put()
         else:
-            url = users.create_login_url(request.request.uri)
+            url = users.create_login_url("/")
             url_string = 'Login'
 
         data = {

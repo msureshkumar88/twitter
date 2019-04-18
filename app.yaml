@@ -15,6 +15,7 @@ handlers:
 
 - url: /profile
   script: request.profile.app
+  login: required
 
 - url: /search-user
   script: request.profile.app

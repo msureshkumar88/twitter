@@ -6,6 +6,7 @@
     <input type="text" name="text">
     <input type="submit" value="Search tweet">
 </form>
+<a href="{{url}}">{{url_string}}</a>
 
 Followers: {{profile_data.follows_count}} Following: {{profile_data.following_count}} Tweets : {{profile_data.tweet_count}}
 <br>
@@ -54,7 +55,8 @@ Name {{profile_data.first_name}}{{profile_data.last_name}}
 <ul>
     {%for tweet in tweets%}
     <li>
-        {{tweet.text}}{% if not other_user%}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a> <a href="edit-tweet?id={{tweet.key.id().split('/')[1]}}">update</a>{% endif %}
+        @{{tweet.user_name}}
+        {{tweet.text}}{% if tweet.user_name == user.user_name%}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a> <a href="edit-tweet?id={{tweet.key.id().split('/')[1]}}">update</a>{% endif %}
     </li>
     {% if tweet.image %}
     <img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"/>

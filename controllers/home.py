@@ -12,8 +12,8 @@ class HomeController(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(self)
         logging.info(user['user'])
-        # if user['user'].user_name:
-        #     self.redirect('/profile')
+        if user['user'] and user['user'].user_name:
+            self.redirect('/profile')
 
         template_values = {
             'url': user["url"],
