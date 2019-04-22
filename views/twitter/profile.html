@@ -34,7 +34,13 @@
 {%for tweet in tweets%}
 <div class="row">
     <div class="col-md-12">
-        <h2>@{{tweet.user_name}}</h2>
+        {%if UserLibrary.get_user_by_username(tweet.user_name).first_name and
+        UserLibrary.get_user_by_username(tweet.user_name).last_name%}
+        <h2>{{UserLibrary.get_user_by_username(tweet.user_name).first_name}}
+            {{UserLibrary.get_user_by_username(tweet.user_name).last_name}}</h2>
+        {% endif %}
+        <h3><a href="/profile?user={{UserLibrary.get_user_by_username(tweet.user_name).user_name}}">@{{UserLibrary.get_user_by_username(tweet.user_name).user_name}}</a></h3>
+        <p>Posted at: {{UserLibrary.format_time(tweet.date_added)}}</p>
         <p>{{tweet.text}}</p>
         {% if tweet.image %}
         <img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"
