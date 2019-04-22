@@ -19,7 +19,7 @@
         <input type="hidden" name="form" value="save_tweet">
         <div class="text-right">
             <div class="custom-file col-md-3">
-                <input type="file" name="myFile" class="custom-file-input" required id="inputGroupFile02">
+                <input type="file" name="myFile" class="custom-file-input" id="inputGroupFile02">
                 <label class="custom-file-label text-left" for="inputGroupFile02"
                        aria-describedby="inputGroupFileAddon02">Choose
                     image</label>
@@ -55,6 +55,42 @@
 {% endif %}
 
 
+{% if search_user and not search_tweet%}
+<h1>Search User</h1>
+
+{% if result.status %}
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">@{{result.data.user_name}}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{result.data.first_name}} {{result.data.last_name}}</h6>
+    <p class="card-text">{{result.data.bio}}</p>
+    <a href="/profile?user={{result.data.user_name}}" class="card-link">View profile</a>
+  </div>
+</div>
+{% else %}
+<div class="alert alert-danger">{{result.message}}</div>
+{% endif %}
+
+
+{% endif %}
+
+{% if search_tweet %}
+<h1>Search Tweet</h1>
+
+{% if result.status %}
+
+{%for tweet in result.data%}
+{{tweet.text}}
+<a href="/profile?user={{tweet.user_name}}">@{{tweet.user_name}}</a><br>
+{%endfor%}
+
+{% else %}
+{{result.message}}
+{% endif %}
+
+
+{% endif %}
 {% endblock %}
 
 
