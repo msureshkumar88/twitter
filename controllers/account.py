@@ -24,33 +24,20 @@ class AccountController:
         request.response.headers['Content-Type'] = 'text/html'
         user = UserLibrary.get_user(request)
 
-        request.request.get("first_name")
-        request.request.get("last_name")
-        request.request.get("dob")
-        request.request.get("city")
-        request.request.get("website")
-        request.request.get("bio")
-        data = {
+        inputs = {
             "first_name": request.request.get("first_name"),
             "last_name": request.request.get("last_name"),
-            "dob": request.request.get("dob"),
-            "city": request.request.get("city"),
-            "website": request.request.get("website"),
             "bio": request.request.get("bio"),
 
         }
-        AccountHelper.update_profile(data)
-
-
-
-        msg = ""
+        result = AccountHelper.update_profile(inputs)
 
         data = {
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
-            'msg': msg,
             'profile_data': AccountHelper.get_profile_data(request.request.params),
+            'result': result,
         }
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/edit_profile.html')
         request.response.write(template.render(data))

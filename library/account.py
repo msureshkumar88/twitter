@@ -14,24 +14,19 @@ class AccountHelper:
     def update_profile(cls, request_data):
         first_name = request_data["first_name"]
         last_name = request_data["last_name"]
-        dob = request_data["dob"]
-        if dob:
-            dob = datetime.datetime.strptime(request_data["dob"], '%Y-%m-%d')
-        else:
-            dob = None
-        city = request_data["city"]
-        website = request_data["website"]
+
         bio = request_data["bio"]
+        if len(bio) > 280:
+            return {"status": False, "message": "Only 280 characters allowed in the bio"}
 
         user_key = ndb.Key('User', UserLibrary.get_current_user().email())
         user = user_key.get()
         user.first_name = first_name
         user.last_name = last_name
-        user.dob = dob
-        user.city = city
-        user.website = website
         user.bio = bio
         user.put()
+        return {"status": True, "message": "Profile has been updated successfully"}
+
 
     @classmethod
     def get_profile(cls):

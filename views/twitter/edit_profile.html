@@ -10,6 +10,9 @@
     <!--<input type="submit" value="save">-->
 <!--</form>-->
 <h1>Update Profile</h1>
+{%if result%}
+<div {%if result.status %} class="alert alert-success" {%else%} class="alert alert-danger" {%endif%}>{{result.message}}</div>
+{%endif%}
 <form name="/edit-profile" method="post">
     <div class="form-group">
         <label for="first_name">First Name</label>
