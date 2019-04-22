@@ -19,18 +19,23 @@ handlers:
 
 - url: /search-user
   script: request.profile.app
+  login: required
 
 - url: /search-tweet
   script: request.profile.app
+  login: required
 
 - url: /delete-tweet
   script: request.profile.app
+  login: required
 
 - url: /edit-tweet
   script: request.profile.app
+  login: required
 
 - url: /save-tweet
   script: request.profile.app
+  login: required
 
 
 - url: /assets
