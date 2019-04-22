@@ -138,6 +138,7 @@ class ProfileController:
             'other_user': other_user,
             'profile_data': AccountHelper.get_profile_data(request.request.params),
             'follow_text': follow_text,
-            'images': images
+            'images': images,
+            'UserLibrary':UserLibrary
         }
         return template_values

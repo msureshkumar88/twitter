@@ -216,6 +216,8 @@ class AccountHelper:
             tweets = []
             for doc in search_results:
                 tweets.append(AccountHelper.get_tweet_by_id(doc.doc_id))
+            if not tweets:
+                return {"status": False, "message": "No tweets available", "data": None}
 
             return {"status": True, "message": "", "data": tweets}
 

@@ -2,6 +2,7 @@ from google.appengine.api import users
 from google.appengine.ext import ndb
 from models.user import User
 import re
+from datetime import datetime
 
 import logging
 
@@ -76,3 +77,8 @@ class UserLibrary:
         if user:
             return user[0]
         return None
+
+    @classmethod
+    def format_time(cls, time):
+        datetime_object = time.strftime('%Y-%m-%d %H:%M:%S')
+        return datetime_object

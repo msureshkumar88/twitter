@@ -61,12 +61,12 @@
 {% if result.status %}
 
 <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">@{{result.data.user_name}}</h5>
-    <h6 class="card-subtitle mb-2 text-muted">{{result.data.first_name}} {{result.data.last_name}}</h6>
-    <p class="card-text">{{result.data.bio}}</p>
-    <a href="/profile?user={{result.data.user_name}}" class="card-link">View profile</a>
-  </div>
+    <div class="card-body">
+        <h5 class="card-title">@{{result.data.user_name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">{{result.data.first_name}} {{result.data.last_name}}</h6>
+        <p class="card-text">{{result.data.bio}}</p>
+        <a href="/profile?user={{result.data.user_name}}" class="card-link">View profile</a>
+    </div>
 </div>
 {% else %}
 <div class="alert alert-danger">{{result.message}}</div>
@@ -81,12 +81,28 @@
 {% if result.status %}
 
 {%for tweet in result.data%}
-{{tweet.text}}
-<a href="/profile?user={{tweet.user_name}}">@{{tweet.user_name}}</a><br>
+<div class="row">
+    <div class="col-md-12">
+        {%if UserLibrary.get_user_by_username(tweet.user_name).first_name and
+        UserLibrary.get_user_by_username(tweet.user_name).last_name%}
+        <h2>{{UserLibrary.get_user_by_username(tweet.user_name).first_name}}
+            {{UserLibrary.get_user_by_username(tweet.user_name).last_name}}</h2>
+        {% endif %}
+        <h3><a href="/profile?user={{UserLibrary.get_user_by_username(tweet.user_name).user_name}}">@{{UserLibrary.get_user_by_username(tweet.user_name).user_name}}</a>
+        </h3>
+        <p> {{UserLibrary.format_time(tweet.date_added)}}</p>
+        <p>{{tweet.text}}</p>
+        {% if tweet.image %}
+        <img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"
+             class="profile-image"/>
+        {% endif %}
+        <hr>
+    </div>
+</div>
 {%endfor%}
 
 {% else %}
-{{result.message}}
+<div class="alert alert-danger">{{result.message}}</div>
 {% endif %}
 
 
