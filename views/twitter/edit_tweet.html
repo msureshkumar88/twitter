@@ -6,7 +6,9 @@
     <!--<input type="submit" value="update">-->
 <!--</form>-->
 <h1>Edit Tweet</h1>
-
+{%if result%}
+<div {%if result.status %} class="alert alert-success" {%else%} class="alert alert-danger" {%endif%}>{{result.message}}</div>
+{%endif%}
 <form name="save_tweet" method="post" action="/edit-tweet?id={{id}}">
     <div class="form-group">
         <!--<label for="tweet">Example textarea</label>-->

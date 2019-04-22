@@ -118,7 +118,7 @@ class AccountHelper:
 
     @classmethod
     def get_tweet_by_unique_key(cls, id):
-        logging.info("ssdsds")
+        
         key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
         tweet = key.get()
         if tweet:
@@ -127,13 +127,19 @@ class AccountHelper:
 
     @classmethod
     def update_tweet(cls, id, text):
+        text = text.strip()
+        if not text:
+            return {"status": False, "message": "Tweet filed cannot be empty"}
+        if len(text) > 280:
+            return {"status": False, "message": "Only 280 characters allowed"}
+
         key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
         tweet = key.get()
         if tweet:
             tweet.text = text
             tweet.put()
-            return True
-        return False
+            return {"status": True, "message": "Tweet has been updated successfully"}
+        return {"status": False, "message": "Tweet not found"}
 
     @classmethod
     def in_other_profile(cls, params):
