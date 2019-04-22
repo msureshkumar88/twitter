@@ -56,20 +56,16 @@ class ProfileController:
         user = UserLibrary.get_user(request)
         id = request.request.params["id"]
         text = request.request.get("tweet")
-
+        msg = ""
         tweet = AccountHelper.get_tweet_by_unique_key(id)
         if type == "post":
             AccountHelper.update_tweet(id, text)
 
-        msg = ""
-        data = {
-            'url': user["url"],
-            'url_string': user['url_string'],
-            'user': user['user'],
-            'msg': msg,
-            'tweet': tweet,
-            'id': id
-        }
+        data = ProfileController.get_profile_template_data(request)
+        data['msg'] = msg
+        data['tweet'] = tweet
+        data['id'] = id
+
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/edit_tweet.html')
         request.response.write(template.render(data))
 

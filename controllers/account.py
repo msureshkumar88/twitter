@@ -12,7 +12,8 @@ class AccountController:
         template_values = {
             'url': user["url"],
             'url_string': user['url_string'],
-            'user': user['user']
+            'user': user['user'],
+            'profile_data': AccountHelper.get_profile_data(request.request.params)
         }
 
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/edit_profile.html')
@@ -48,7 +49,8 @@ class AccountController:
             'url': user["url"],
             'url_string': user['url_string'],
             'user': user['user'],
-            'msg': msg
+            'msg': msg,
+            'profile_data': AccountHelper.get_profile_data(request.request.params),
         }
         template = template_engine.JINJA_ENVIRONMENT.get_template('views/twitter/edit_profile.html')
         request.response.write(template.render(data))
