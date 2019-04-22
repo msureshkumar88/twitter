@@ -52,7 +52,7 @@ class AccountHelper:
             info = blobstore.BlobReader(upload)
             if info.blob_info.content_type not in ['image/jpeg','image/png']:
                 blobstore.delete(upload)
-                return {"status": True, "message": "Only png PNG and JPEG can be uploaded"}
+                return {"status": False, "message": "Only png PNG and JPEG can be uploaded"}
 
         user = UserLibrary.get_logged_user()
         tweet = Tweet(id=AccountHelper.get_tweet_key(), text=text, user_email=user.email, user_name = user.user_name, image=upload)
@@ -118,7 +118,6 @@ class AccountHelper:
 
     @classmethod
     def get_tweet_by_unique_key(cls, id):
-        
         key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
         tweet = key.get()
         if tweet:

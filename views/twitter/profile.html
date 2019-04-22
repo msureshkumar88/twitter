@@ -5,14 +5,14 @@
 {% if not search_user and not search_tweet%}
 
 {% if not other_user%}
-{% if save_result %}
-{{save_result.message}}
-{% endif %}
 <!--<form name="save_tweet" method="post" action="/profile">-->
 <!--<textarea name="tweet"></textarea>-->
 <!--<input type="hidden" name="form" value="save_tweet">-->
 <!--<input type="submit" value="Tweet">-->
 <!--</form>-->
+{%if save_result%}
+<div {%if save_result.status %} class="alert alert-success" {%else%} class="alert alert-danger" {%endif%}>{{save_result.message}}</div>
+{%endif%}
 <form action='{{upload_url}}' method="post" name="save_tweet" enctype="multipart/form-data">
     <div class="form-group">
         <textarea name="tweet" rows="5" class="form-control mb-3"></textarea>

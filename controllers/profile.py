@@ -41,9 +41,7 @@ class ProfileController:
         result = AccountHelper.save_tweet(request)
         request.session['save_result'] = result
         tweets = AccountHelper.get_tweets_by_user(request.request.params)
-        msg = ""
         data = ProfileController.get_profile_template_data(request)
-        data['msg'] = msg
         data['tweets'] = tweets
         data['result'] = result
         request.redirect('/profile')
