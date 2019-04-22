@@ -63,27 +63,27 @@
             </li>
         </ul>
         <div class="profile-search">
-            <form class="form-inline my-2 my-lg-0">
+            <form name="save_tweet" method="get" action="/search-user"class="form-inline my-2 my-lg-0">
                 <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
                 <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search User"
+                    <input type="text" class="form-control" name="username" placeholder="Search User"
                            aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" type="button" id="button-addon1">Search</button>
+                        <input class="btn btn-outline-success" type="submit" id="button-addon1" value="Search">
                     </div>
                 </div>
             </form>
         </div>
         <div class="profile-search">
-            <form class="form-inline my-2 my-lg-0">
+            <form  name="save_tweet" method="get" action="/search-tweet" class="form-inline my-2 my-lg-0">
                 <!--<input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">-->
                 <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Search Tweet"
+                    <input type="text" name="text" class="form-control" placeholder="Search Tweet"
                            aria-label="Recipient's username" aria-describedby="button-addon2">
                     <div class="input-group-append">
-                        <button class="btn btn-outline-success" type="button" id="button-addon2">Search</button>
+                        <input class="btn btn-outline-success" type="submit" id="button-addon2" value="Search tweet">
                     </div>
                 </div>
             </form>
