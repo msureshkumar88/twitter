@@ -1,0 +1,14 @@
+/* Move down content because we have a fixed navbar that is 3.5rem tall */
+body {
+  padding-top: 3.5rem;
+}
+.profile-image{
+       margin-bottom: 10px;;
+}
+.profile-buttons{
+    margin-right: 10px;
+}
+
+.profile-search{
+    margin-right: 15px;
+}
