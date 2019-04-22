@@ -96,7 +96,12 @@
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">
         <div class="container">
-            <h1 class="display-3">Hello, Suresh Kumar</h1>
+            {%if profile_data.first_name and profile_data.last_name%}
+            <h1 class="display-3">Hello, {{profile_data.first_name}} {{profile_data.last_name}}</h1>
+            {%else%}
+            <h1 class="display-3">Hello, @{{profile_data.user_name}}</h1>
+            {%endif%}
+
             <p>This is a template for a simple marketing or informational website. It includes a large callout called a
                 jumbotron and three supporting pieces of content. Use it as a starting point to create something more
                 unique.</p>
