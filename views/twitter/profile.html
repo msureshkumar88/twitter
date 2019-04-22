@@ -13,6 +13,10 @@
 {%if save_result%}
 <div {%if save_result.status %} class="alert alert-success" {%else%} class="alert alert-danger" {%endif%}>{{save_result.message}}</div>
 {%endif%}
+{%if delete_success%}
+<div class="alert alert-success">Tweet has been deleted successfully</div>
+{%endif%}
+
 <form action='{{upload_url}}' method="post" name="save_tweet" enctype="multipart/form-data">
     <div class="form-group">
         <textarea name="tweet" rows="5" class="form-control mb-3"></textarea>

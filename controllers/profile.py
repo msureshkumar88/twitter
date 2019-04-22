@@ -26,6 +26,9 @@ class ProfileController:
         if 'user' in request.request.params:
             if not other_user:
                 return request.redirect('/profile')
+        data['delete_success'] = ""
+        if "delete_success" in request.request.params:
+            data['delete_success'] = True
 
         if other_user and user.user_name == other_user.user_name:
             return request.redirect('/profile')
