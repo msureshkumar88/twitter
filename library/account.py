@@ -122,7 +122,8 @@ class AccountHelper:
         return False
 
     @classmethod
-    def get_tweet_by_id(cls, id):
+    def get_tweet_by_unique_key(cls, id):
+        logging.info("ssdsds")
         key = ndb.Key('Tweet', AccountHelper.get_tweet_key_by_id(id))
         tweet = key.get()
         if tweet:

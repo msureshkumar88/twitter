@@ -56,7 +56,8 @@ class ProfileController:
         user = UserLibrary.get_user(request)
         id = request.request.params["id"]
         text = request.request.get("tweet")
-        tweet = AccountHelper.get_tweet_by_id(id)
+
+        tweet = AccountHelper.get_tweet_by_unique_key(id)
         if type == "post":
             AccountHelper.update_tweet(id, text)
 

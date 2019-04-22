@@ -1,5 +1,18 @@
+{% extends "/templates/profile.html" %}
+{% block content %}
+<!--<form name="save_tweet" method="post" action="/edit-tweet?id={{id}}">-->
+    <!--<textarea name="tweet">{{tweet.text}}</textarea>-->
+    <!--<input type="hidden" name="form" value="update_tweet">-->
+    <!--<input type="submit" value="update">-->
+<!--</form>-->
+<h1>Edit Tweet</h1>
+
 <form name="save_tweet" method="post" action="/edit-tweet?id={{id}}">
-    <textarea name="tweet">{{tweet.text}}</textarea>
+    <div class="form-group">
+        <!--<label for="tweet">Example textarea</label>-->
+        <textarea name="tweet" class="form-control" id="tweet" rows="3">{{tweet.text}}</textarea>
+    </div>
     <input type="hidden" name="form" value="update_tweet">
-    <input type="submit" value="update">
+    <input type="submit" class="btn btn-primary" value="Update">
 </form>
+{% endblock %}
