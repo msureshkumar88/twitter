@@ -103,7 +103,17 @@
             {%endif%}
 
             <p>{{profile_data.bio}}</p>
-            <p><a class="btn btn-primary btn-lg" href="#" role="button">Follow</a></p>
+            <p>
+                {% if not search_user and not search_tweet%}
+                {% if other_user%}
+                <form method="post" action="profile?user={{profile_data.user_name}}">
+                    <input type="hidden" name="form" value="update_following_status">
+                    <input type="submit" class="btn btn-info" name="btn_text" value="{{follow_text}}">
+                </form>
+                {% endif %}
+                {% endif %}
+
+            </p>
             <div class="d-flex flex-row bd-highlight mb-3">
                 <div class="p-2 bd-highlight">
                     <div class="shadow p-3 mb-5 bg-white rounded">Tweets : {{profile_data.tweet_count}}</div>

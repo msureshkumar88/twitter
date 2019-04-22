@@ -1,26 +1,70 @@
 {% extends "/templates/profile.html" %}
 {% block content %}
- <!-- Example row of columns -->
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Heading</h2>
-                <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula
-                    porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
-                    ut fermentum massa justo sit amet risus.</p>
+<!-- Example row of columns -->
 
-                <img src="https://www.w3schools.com/howto/img_forest.jpg" class="profile-image">
-                <p class="text-right"><a class="btn btn-secondary profile-buttons" href="#" role="button">Edit</a><a
-                        class="btn btn-secondary" href="#" role="button">Delete</a></p>
+{% if not search_user and not search_tweet%}
+
+{% if not other_user%}
+{% if save_result %}
+{{save_result.message}}
+{% endif %}
+<!--<form name="save_tweet" method="post" action="/profile">-->
+<!--<textarea name="tweet"></textarea>-->
+<!--<input type="hidden" name="form" value="save_tweet">-->
+<!--<input type="submit" value="Tweet">-->
+<!--</form>-->
+<form action='{{upload_url}}' method="post" name="save_tweet" enctype="multipart/form-data">
+    <div class="form-group">
+        <textarea name="tweet" rows="5" class="form-control mb-3"></textarea>
+        <input type="hidden" name="form" value="save_tweet">
+        <div class="text-right">
+            <div class="custom-file col-md-3">
+                <input type="file" name="myFile" class="custom-file-input" required id="inputGroupFile02">
+                <label class="custom-file-label text-left" for="inputGroupFile02"
+                       aria-describedby="inputGroupFileAddon02">Choose
+                    image</label>
             </div>
+            <input type="submit" value="Tweet" class="btn btn-primary ml-3">
         </div>
+    </div>
+</form>
+{% endif %}
+
+
+{%for tweet in tweets%}
+<div class="row">
+    <div class="col-md-12">
+        <h2>@{{tweet.user_name}}</h2>
+        <p>{{tweet.text}}</p>
+        {% if tweet.image %}
+        <img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"
+             class="profile-image"/>
+        {% endif %}
+        {% if tweet.user_name == user.user_name%}
+        <p class="text-right"><a class="btn btn-secondary profile-buttons"
+                                 href="edit-tweet?id={{tweet.key.id().split('/')[1]}}" role="button">Edit</a><a
+                class="btn btn-secondary" href="delete-tweet?id={{tweet.key.id().split('/')[1]}}"
+                role="button">Delete</a></p>
+        {% endif %}
+        <hr>
+    </div>
+</div>
+{%endfor%}
+
+
+{% endif %}
+
+
 {% endblock %}
+
+
 <!--<form name="save_tweet" method="get" action="/search-user">-->
-    <!--<input type="text" name="username">-->
-    <!--<input type="submit" value="Search User">-->
+<!--<input type="text" name="username">-->
+<!--<input type="submit" value="Search User">-->
 <!--</form>-->
 <!--<form name="save_tweet" method="get" action="/search-tweet">-->
-    <!--<input type="text" name="text">-->
-    <!--<input type="submit" value="Search tweet">-->
+<!--<input type="text" name="text">-->
+<!--<input type="submit" value="Search tweet">-->
 <!--</form>-->
 <!--<a href="{{url}}">{{url_string}}</a>-->
 
@@ -46,7 +90,7 @@
 
 <!--{% if other_user%}-->
 <!--<form method="post" action="profile?user={{profile_data.user_name}}">-->
-    <!--<input type="hidden" name="form" value="update_following_status">-->
+<!--<input type="hidden" name="form" value="update_following_status">-->
 <!--<input type="submit" name="btn_text" value="{{follow_text}}">-->
 <!--</form>-->
 <!--{% endif %}-->
@@ -56,28 +100,30 @@
 <!--{{save_result.message}}-->
 <!--{% endif %}-->
 <!--&lt;!&ndash;<form name="save_tweet" method="post" action="/profile">&ndash;&gt;-->
-    <!--&lt;!&ndash;<textarea name="tweet"></textarea>&ndash;&gt;-->
-    <!--&lt;!&ndash;<input type="hidden" name="form" value="save_tweet">&ndash;&gt;-->
-    <!--&lt;!&ndash;<input type="submit" value="Tweet">&ndash;&gt;-->
+<!--&lt;!&ndash;<textarea name="tweet"></textarea>&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="hidden" name="form" value="save_tweet">&ndash;&gt;-->
+<!--&lt;!&ndash;<input type="submit" value="Tweet">&ndash;&gt;-->
 <!--&lt;!&ndash;</form>&ndash;&gt;-->
- <!--<form action='{{upload_url}}' method="post" name="save_tweet" enctype="multipart/form-data">-->
-        <!--<textarea name="tweet"></textarea>-->
-        <!--<input type="hidden" name="form" value="save_tweet"><br>-->
-        <!--<input type="file" name="myFile"><br>-->
-        <!--<input type="submit" value="Tweet">-->
- <!--</form>-->
+<!--<form action='{{upload_url}}' method="post" name="save_tweet" enctype="multipart/form-data">-->
+<!--<textarea name="tweet"></textarea>-->
+<!--<input type="hidden" name="form" value="save_tweet"><br>-->
+<!--<input type="file" name="myFile"><br>-->
+<!--<input type="submit" value="Tweet">-->
+<!--</form>-->
 <!--{% endif %}-->
 
 <!--<ul>-->
-    <!--{%for tweet in tweets%}-->
-    <!--<li>-->
-        <!--@{{tweet.user_name}}-->
-        <!--{{tweet.text}}{% if tweet.user_name == user.user_name%}<a href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a> <a href="edit-tweet?id={{tweet.key.id().split('/')[1]}}">update</a>{% endif %}-->
-    <!--</li>-->
-    <!--{% if tweet.image %}-->
-    <!--<img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"/>-->
-    <!--{% endif %}-->
-    <!--{%endfor%}-->
+<!--{%for tweet in tweets%}-->
+<!--<li>-->
+<!--@{{tweet.user_name}}-->
+<!--{{tweet.text}}{% if tweet.user_name == user.user_name%}<a-->
+<!--href="delete-tweet?id={{tweet.key.id().split('/')[1]}}">delete</a> <a-->
+<!--href="edit-tweet?id={{tweet.key.id().split('/')[1]}}">update</a>{% endif %}-->
+<!--</li>-->
+<!--{% if tweet.image %}-->
+<!--<img src="{{images.get_serving_url(tweet.image, size=150, crop=False, secure_url=False)}}"/>-->
+<!--{% endif %}-->
+<!--{%endfor%}-->
 <!--</ul>-->
 
 <!--{% endif %}-->
