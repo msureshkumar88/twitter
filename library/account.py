@@ -137,6 +137,15 @@ class AccountHelper:
         if tweet:
             tweet.text = text
             tweet.put()
+            index = search.Index('tweet')
+            index.delete(AccountHelper.get_tweet_key_by_id(id))
+            d = search.Document(
+                doc_id=AccountHelper.get_tweet_key_by_id(id),
+                fields=[search.TextField(name='tweet', value=text),
+                        search.TextField(name='user_name', value=tweet.user_name)],
+                language='en')
+
+            add_result = search.Index(name='tweet').put(d)
             return {"status": True, "message": "Tweet has been updated successfully"}
         return {"status": False, "message": "Tweet not found"}
 
