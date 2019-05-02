@@ -30,7 +30,8 @@ class HomeController(webapp2.RequestHandler):
         user = UserLibrary.get_user(self)
 
         userName = self.request.get("username")
-        result = UserLibrary.update_username(userName)
+
+        result = UserLibrary.update_username(self)
 
         data = {
             'url': user["url"],

@@ -52,10 +52,18 @@ class UserLibrary:
         return re.search('^[a-zA-Z0-9]+$', word)
 
     @classmethod
-    def update_username(cls, user_name):
+    def update_username(cls, req):
         msg = ""
+        user_name = req.request.get("username")
+        first_name = req.request.get("first_name")
+        last_name = req.request.get("last_name")
+        bio = req.request.get("bio")
+
         if not UserLibrary.validate_username(user_name):
             return {"status": False, "message":"Username can only be alphabetic and numeric"}
+
+        if len(bio) > 280:
+            return {"status": False, "message": "Only 280 characters allowed"}
 
         query = User.query(User.user_name == user_name)
         username_exist = query.fetch()
@@ -67,8 +75,11 @@ class UserLibrary:
             user_key = ndb.Key('User', UserLibrary.get_current_user().email())
             user = user_key.get()
             user.user_name = user_name
+            user.first_name = first_name
+            user.last_name = last_name
+            user.bio = bio
             user.put()
-            return {"status": True, "message": "Username saved successfully"}
+            return {"status": True, "message": "Profile updated successfully"}
         return msg
 
     @classmethod

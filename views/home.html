@@ -13,10 +13,20 @@
     {% endif %}
 
     <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
-    <h1 class="h3 mb-3 font-weight-normal">Please Enter an Username</h1>
+    <!--<h1 class="h3 mb-3 font-weight-normal">Please Enter an Username</h1>-->
     <label for="inputEmail" class="sr-only">Username</label>
-    <input type="text" id="inputEmail" class="form-control" placeholder="Username" name="username" autofocus>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <input type="text" id="inputEmail" class="form-control mb-3" placeholder="Username" name="username" autofocus>
+
+    <label for="first_name" class="sr-only">First name</label>
+    <input type="text" id="first_name" class="form-control mb-3" placeholder="First name" name="first_name">
+
+    <label for="last_name" class="sr-only">Last name</label>
+    <input type="text" id="last_name" class="form-control mb-3" placeholder="Last name" name="last_name">
+
+    <label for="bio" class="sr-only">Last name</label>
+    <textarea id="bio" class="form-control mb-3" name="bio" placeholder="Bio"></textarea>
+
+    <button  class="btn btn-lg btn-primary btn-block" type="submit">Update</button>
     {% endif %}
 
     {%if result.status %}
